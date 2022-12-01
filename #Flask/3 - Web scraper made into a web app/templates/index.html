@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Random beer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  </head>
+  <body>
+    <section class="hero is-small is-primary">
+        <div class="hero-body">
+          <p class="title">
+            Today's random 🍺
+          </p>
+          <p class="subtitle">
+            {{ beer.name }}
+          </p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                What is it?
+            </h1>
+            <p class="subtitle">
+                {{ beer.desc }}
+            </p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                What would you drink it with?
+            </h1>
+            <div class="content">
+                {% for elem in beer.foodpair %}
+                    <p class="subtitle">✔️{{elem}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Some brewers tips
+            </h1>
+            <p class="subtitle">
+                {{beer.brewerstips }}
+            </p>
+        </div>
+    </section>
+  </body>
+</html>

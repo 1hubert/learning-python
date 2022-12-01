@@ -1,0 +1,173 @@
+
+bulma.io
+________________________________________________
+
+# {{variable passed in when referencing the html file}}
+# {% quasi-python code %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home page</title>
+    </head>
+    <body>
+        <h1>Home Page!</h1>
+        <p>Hey, {{content}}, sup!!</p>
+        {% for i in range(10) %}
+            <p>Numer {{i}}</p>
+        {% endfor %}
+    </body>
+</html>
+
+__________________________________________________
+
+{% if x == 'hubert' %}
+    {% do_something() %}
+    <p>This will be shown when the first condition is met</p>
+{% elif %}
+{% else %}
+{% endif %}
+
+__________________________________________________
+
+templates must be in the same directory
+
+define a block called 'content' (in a base):
+{% block content %}{% endblock %}
+
+extending base:
+{% extends "base.html" %}
+{% block content %}Stuff{% endblock %}
+
+__________________________________________________
+
+slash at the end helps not to return error when someone types page.com/old_home/
+
+@app.route('/old_home/')
+def old_home():
+    return 'Hello! This is the main page <h1>HELLO</h1>'
+
+__________________________________________________
+
+example of home page
+
+@app.route('/')
+def home():
+    return render_template('index.html', variable_inside_index.html=value)
+
+__________________________________________________
+
+<name> demands a value (that will be the text after page.com/)
+but you can also call user from another function
+
+@app.route('/<name>/')
+def user(name):
+    #return f'Hello {name}!'
+    return render_template('index.html', content=name)
+
+name=value odnosi się do <name> które później staje się argumentem funkcji
+
+@app.route('/admin/')
+def admin():
+    return redirect(url_for('user', name='to od admina'))
+
+__________________________________________________
+
+bootstrap is a css framework for quickly styling your websites
+
+(css, na początku head)
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+(js, na końcu body)
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+ze strony bootstrapa można przeklejąc wiele elementów jak navbar
+
+__________________________________________________
+
+@app.route('/<usr>/')
+def user(usr):
+    """Returns a subpage /whatever_the_input_was
+    and the only element on the subpage is
+    bold whatever_the_input_was.
+    """
+    return f'<h1>{usr}<h/1>'
+
+# Allows POST and GET https methods to be used for the /login/ url.
+# Basically: Getting the page to load and also taking data from user.
+# The data is taken using form and input html elements.
+@app.route('/login/', methods=['POST', 'GET'])
+def login():
+    if request.method == "POST":
+        # name parameter value for <input> was 'nm'
+        # request.form is a dictionary
+        user = request.form['nm']
+        # redirects to subpage returned by calling a function user(request.form['nm'])
+        return redirect(url_for('user', usr=user))
+    else:
+        # if the request.method was GET, than it just loads the website
+        # it wouldn't have done that if the GET was not specified in methods
+        return render_template('login.html')
+
+__________________________________________________
+from flask import session
+
+app.permanent_session_lifetime = timedelta(seconds=10)
+session.permanent = True
+
+the session object imported from flask is actually 
+a client-side session, meaning that the data are stored 
+in the client browser
+
+__________________________________________________
+
+ctrl + Left clik to show the built in functions
+
+__________________________________________________
+
+# Define a secret key
+# It's needed because the session data is encoded on the client-side
+# stored in a cookie
+app.secret_key = 'hello'
+
+__________________________________________________
+
+# None is returned when there is no 'user' key (instead of KeyError)
+# in the session dictionary
+session.pop('user', None)
+
+__________________________________________________
+
+class users(db.Model):
+    _id = db.Column('id', db.Integer, primary_key=True)
+    name = db.Column('name', db.String(100))
+    email = db.Column('email', db.String(100))
+
+    # this will be named after the variable
+    # name = db.Column(db.String(100))
+
+__________________________________________________
+
+found_huberts = users.query.filter_by(name=Hubert).all()
+found_my_email = users.query.filter_by(email=hubert@hards.pl).first()
+
+# for user in found_user loop may be needed to delete one by one
+found_user = users.query.filter_by(name=name).delete()
+# commit changes
+db.session.commit()
+
+_________________________________________________
+
+by default the folder structure is:
+templates for .html
+static for .css .js
+
+blueprints structure: https://exploreflask.com/en/latest/blueprints.html
+
+_________________________________________________
+
+putting an empty __init__.py file in a folder python scripts
+makes it a python library
+you can import modules from it
