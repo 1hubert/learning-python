@@ -1,0 +1,8 @@
+Największy problem jest z nazwami własnymi: Nilu, Pymon, Musashi, Vat, Monstert Bridge
+Może da się wprowadzać swoje słowa do modelu?
+Jak nie, mógłbym automatycznie zamieniać znane błędne transkrybcje słów.
+
+Jeśli filmik ma timestampy, można ich użyć do podzielenia tekstu na
+akapity z tytułami timestampów
+
+to research: add the hint word in the dictionary
