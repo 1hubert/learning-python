@@ -8,13 +8,13 @@ class Cordinates():
     dinoLimity = (250,432)#Coordenada Limite do Dino 192,421
     #x= 100 y=415
 
-#Reiniciar o Jogo
+
 def restartGame():
     pyautogui.click(479, 410)
     pyautogui.keyDown('down')
     time.sleep(0.05)
 
-#Pressionar o Espaço
+    
 def pressSpace():
     pyautogui.keyUp('down')
     pyautogui.keyDown('space')
